@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
+using Telegram.Bot.Args;
 
 namespace WolframOmega
 {
@@ -14,18 +15,20 @@ namespace WolframOmega
         {
             var token = File.ReadAllLines("token.txt")[0];
             var bot = new TelegramBotClient(token);
+            bot.OnMessage += (object sender, MessageEventArgs e) => Console.WriteLine("aaaaa");
+            bot.StartReceiving();
             WriteAllUpdates(bot);
             Console.ReadKey();
         }
 
         static async void WriteAllUpdates(TelegramBotClient bot)
         {
-            await bot.SetWebhookAsync("");
             var offset = 0;
             while (true)
             {
                 try
                 {
+                    await bot.SetWebhookAsync("");
                     var updates = await bot.GetUpdatesAsync(offset);
                     foreach (var update in updates)
                     {
