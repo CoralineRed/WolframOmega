@@ -13,14 +13,22 @@ namespace WolframOmega
         private readonly Dictionary<string, Func<string, string>> executions
             = new Dictionary<string, Func<string, string>>();
 
-        public string Execute(string command)
+        public string Execute(string message)
         {
-            throw new NotImplementedException();
+            if (message.Length == 0) throw new ArgumentException("пустая строка");
+            var command = message.Split()[0];
+            var input = "";
+            var pos = message.Trim().IndexOf(' ');
+            if (pos != message.Length) input = message.Substring(pos + 1);
+
+            if (command.Length != 0 && references.ContainsKey(command))
+                return executions[command](input);
+            else return "Неизвестная команда.";
         }
 
         public List<string> GetAllCommandNames()
         {
-            throw new NotImplementedException();
+            return references.Select(x => x.Key).ToList();
         }
 
         public void Register(IBotCommand command)

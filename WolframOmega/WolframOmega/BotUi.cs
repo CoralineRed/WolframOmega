@@ -23,17 +23,25 @@ namespace WolframOmega
             await bot.SendTextMessageAsync(e.Message.Chat, "Привет");
         }
 
+        private static ICommandExecutor CreateExecutor()
+        {
+            var executor = new CommandExecutor();
+            executor.Register(new Arithmetic());
+            return executor;
+        }
+
         public void Run()
         {
-            SetCommands();
+            var executor = CreateExecutor();
+            SetCommands(executor);
             bot.OnMessage += BotOnMessage;
             bot.StartReceiving();
             Console.ReadKey();
         }
 
-        private void SetCommands()
+        private void SetCommands(ICommandExecutor executor)
         {
-
+            bot.
         }
     }
 }

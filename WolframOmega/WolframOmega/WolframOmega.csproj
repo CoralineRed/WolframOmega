@@ -52,7 +52,9 @@
     <Compile Include="Commands\Arithmetic.cs" />
     <Compile Include="BotUi.cs" />
     <Compile Include="CommandExecutor.cs" />
+    <Compile Include="Commands\HelpCommand.cs" />
     <Compile Include="Commands\IBotCommand.cs" />
+    <Compile Include="Commands\StartCommand.cs" />
     <Compile Include="ICommandExecutor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
