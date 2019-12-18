@@ -49,8 +49,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Arithmetic.cs" />
-    <Compile Include="ICalculation.cs" />
+    <Compile Include="Commands\Arithmetic.cs" />
+    <Compile Include="BotUi.cs" />
+    <Compile Include="CommandExecutor.cs" />
+    <Compile Include="Commands\IBotCommand.cs" />
+    <Compile Include="ICommandExecutor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User.cs" />

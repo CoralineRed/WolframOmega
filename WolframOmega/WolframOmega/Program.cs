@@ -13,21 +13,27 @@ namespace WolframOmega
     {
         static void Main(string[] args)
         {
-            //var token = File.ReadAllLines("token.txt")[0];
+            var token = File.ReadAllLines("token.txt")[0];
+            new BotUi(token).Run();
+
             //var bot = new TelegramBotClient(token);
-            //bot.OnMessage += (object sender, MessageEventArgs e) => Console.WriteLine("aaaaa");
+            //bot.OnMessage += (object sender, MessageEventArgs e) =>
+            //{
+            //    Console.WriteLine(e.Message.Text);
+            //    bot.SendTextMessageAsync(e.Message.Chat.Id, "Привет");
+            //};
             //bot.StartReceiving();
             //WriteAllUpdates(bot);
 
-            var a = new Arithmetic();
-            var s = Console.ReadLine();
-            while (s != "end")
-            {
-                Console.WriteLine(a.Calculate(s));
-                s = Console.ReadLine();
-            }
+            //var a = new Arithmetic();
+            //var s = Console.ReadLine();
+            //while (s != "end")
+            //{
+            //    Console.WriteLine(a.Calculate(s));
+            //    s = Console.ReadLine();
+            //}
 
-            Console.ReadKey();
+            //Console.ReadKey();
         }
 
         static async void WriteAllUpdates(TelegramBotClient bot)
