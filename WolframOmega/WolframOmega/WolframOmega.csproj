@@ -86,9 +86,11 @@
     <Compile Include="CalculationInfo.cs" />
     <Compile Include="Commands\AvailableCalculations.cs" />
     <Compile Include="Commands\CancelCommand.cs" />
+    <Compile Include="Commands\GrantPermissionCommand.cs" />
     <Compile Include="Commands\HelpCommand.cs" />
     <Compile Include="Commands\IBotCommand.cs" />
     <Compile Include="Commands\ICalculation.cs" />
+    <Compile Include="Commands\TakePermissionCommand.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="ICommandExecutor.cs" />
     <Compile Include="Program.cs" />
