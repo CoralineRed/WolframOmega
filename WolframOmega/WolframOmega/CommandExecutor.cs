@@ -24,17 +24,24 @@ namespace WolframOmega
             }
             else if (currentAction.ContainsKey(id) && currentAction[id] != null)
             {
-                try
+                if (text == "/cancel")
                 {
-                    var output = ((ICalculation)currentAction[id]).Calculate(text);
                     currentAction[id] = null;
-                    //if (commands[command] is ICalculation)
-                    //    db.AddQuery(input, output, args.Message.Chat.Id);
-                    return output;
+                    return commands["/cancel"].Message;
                 }
-                catch (Exception e)
+                else
                 {
-                    return e.Message;
+                    try
+                    {
+                        var output = ((ICalculation)currentAction[id]).Calculate(text);
+                        //if (commands[command] is ICalculation)
+                        //    db.AddQuery(input, output, args.Message.Chat.Id);
+                        return output;
+                    }
+                    catch (Exception e)
+                    {
+                        return e.Message;
+                    }
                 }
             }
             else if (commands.ContainsKey(text))

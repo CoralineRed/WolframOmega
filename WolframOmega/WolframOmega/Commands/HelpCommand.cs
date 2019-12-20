@@ -8,11 +8,11 @@ namespace WolframOmega
 {
     public class HelpCommand : IBotCommand
     {
-        private List<IBotCommand> commands;
+        private Func<List<IBotCommand>> getCommands;
 
-        public HelpCommand(List<IBotCommand> commands)
+        public HelpCommand(Func<List<IBotCommand>> getCommands)
         {
-            this.commands = commands;
+            this.getCommands = getCommands;
         }
 
         public string Command => "/help";
@@ -27,7 +27,7 @@ namespace WolframOmega
                 builder.Append("Этот бот может считать арифметические выражения и сохранять их. ");
                 builder.Append("Вы можете делиться своими вычислениями с другими пользователями. ");
                 builder.Append("Доступные команды:\n\n");
-                foreach (var command in commands)
+                foreach (var command in getCommands())
                 {
                     builder.Append(command.Command);
                     builder.Append(" - ");

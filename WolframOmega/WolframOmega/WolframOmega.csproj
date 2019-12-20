@@ -84,6 +84,8 @@
     <Compile Include="BotUi.cs" />
     <Compile Include="CommandExecutor.cs" />
     <Compile Include="CalculationInfo.cs" />
+    <Compile Include="Commands\AvailableCalculations.cs" />
+    <Compile Include="Commands\CancelCommand.cs" />
     <Compile Include="Commands\HelpCommand.cs" />
     <Compile Include="Commands\IBotCommand.cs" />
     <Compile Include="Commands\ICalculation.cs" />

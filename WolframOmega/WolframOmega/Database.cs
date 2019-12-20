@@ -76,7 +76,7 @@ namespace WolframOmega
                     while (reader.Read())
                     {
                         reader.GetValues(b);
-                        list.Add(new CalculationInfo((string)b[1], (string)b[2], (int)b[3]));
+                        list.Add(new CalculationInfo((string)b[1], (string)b[2], (int)b[3], (long)b[0]));
                         //list.Add(Tuple.Create((string)b[1], (string)b[2], (int)b[3]));
                     }
                 using (var cmd = new NpgsqlCommand($"select * from (select * from permissions join users on permissions.receiverid = users.userid where username = '{userName}') as foo join calcinfo on foo.calculationid = calcinfo.calculationid", conn))
@@ -84,7 +84,7 @@ namespace WolframOmega
                     while (reader.Read())
                     {
                         reader.GetValues(b);
-                        list.Add(new CalculationInfo((string)b[6], (string)b[7], (int)b[2]));
+                        list.Add(new CalculationInfo((string)b[6], (string)b[7], (int)b[2], (long)b[0]));
                         //list.Add(Tuple.Create((string)b[6], (string)b[7], (int)b[2]));
                     }
             }

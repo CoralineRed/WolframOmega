@@ -8,14 +8,17 @@ namespace WolframOmega
 {
     public class CalculationInfo
     {
-        public int Id { get; set; }
-        public string Input { get; set; }
-        public string Output { get; set; }
-        public CalculationInfo(string input, string output, int id)
+        public int Id { get; }
+        public string Input { get; }
+        public string Output { get; }
+        public long UserId { get; }
+
+        public CalculationInfo(string input, string output, int id, long userId)
         {
             Input = input;
             Output = output;
             Id = id;
+            UserId = userId;
         }
     }
 }

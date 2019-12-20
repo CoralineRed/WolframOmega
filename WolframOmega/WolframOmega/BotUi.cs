@@ -18,7 +18,8 @@ namespace WolframOmega
             bot = new TelegramBotClient(token);
             var executor = new CommandExecutor();
             executor.Register(new Arithmetic());
-            executor.Register(new HelpCommand(executor.GetAllCommands()));
+            executor.Register(new CancelCommand());
+            executor.Register(new HelpCommand(executor.GetAllCommands));
             this.executor = executor;
         }
 

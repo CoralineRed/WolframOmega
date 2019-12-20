@@ -77,7 +77,7 @@ namespace WolframOmega
             {
                 var x = numbers.Pop();
                 var y = numbers.Pop();
-                numbers.Push(operations[operators.Pop()](x, y));
+                numbers.Push(operations[operators.Pop()](y, x));
             }
             else throw new ArgumentException("Неправильно составлено выражение");
         }
