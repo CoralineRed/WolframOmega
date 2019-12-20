@@ -64,25 +64,34 @@ namespace WolframOmega
             }
         }
 
-        public List<Tuple<string, string, int>> ShowAllCalculations()
+        public List<CalculationInfo> ShowAllCalculations(string userName)
         {
-            object[] b = new object[4];
-            var list = new List<Tuple<string, string, int>>();
+            object[] b = new object[9];
+            var list = new List<CalculationInfo>();
             using (var conn = new NpgsqlConnection(connString))
             {
                 conn.Open();
-                using (var cmd = new NpgsqlCommand("SELECT * FROM calcinfo", conn))
+                using (var cmd = new NpgsqlCommand($"select * from calcinfo inner join users on calcinfo.userid = users.userid where username = '{userName}'", conn))
                 using (var reader = cmd.ExecuteReader())
                     while (reader.Read())
                     {
                         reader.GetValues(b);
-                        list.Add(Tuple.Create((string)b[1], (string)b[2], (int)b[3]));
-                    }                       
+                        list.Add(new CalculationInfo((string)b[1], (string)b[2], (int)b[3]));
+                        //list.Add(Tuple.Create((string)b[1], (string)b[2], (int)b[3]));
+                    }
+                using (var cmd = new NpgsqlCommand($"select * from (select * from permissions join users on permissions.receiverid = users.userid where username = '{userName}') as foo join calcinfo on foo.calculationid = calcinfo.calculationid", conn))
+                using (var reader = cmd.ExecuteReader())
+                    while (reader.Read())
+                    {
+                        reader.GetValues(b);
+                        list.Add(new CalculationInfo((string)b[6], (string)b[7], (int)b[2]));
+                        //list.Add(Tuple.Create((string)b[6], (string)b[7], (int)b[2]));
+                    }
             }
             return list;
         }
 
-        public void AddQuery(string query,string output, long userId)
+        public void AddQuery(string query, string output, long userId)
         {
             using (var conn = new NpgsqlConnection(connString))
             {

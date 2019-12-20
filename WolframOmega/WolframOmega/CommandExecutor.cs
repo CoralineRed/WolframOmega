@@ -3,39 +3,63 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Telegram.Bot.Args;
 
 namespace WolframOmega
 {
     public class CommandExecutor : ICommandExecutor
     {
-        private readonly List<IBotCommand> commands = new List<IBotCommand>();
-        private readonly Dictionary<string, string> references = new Dictionary<string, string>();
-        private readonly Dictionary<string, Func<string, string>> executions
-            = new Dictionary<string, Func<string, string>>();
+        //private Database db = new Database();
+        private readonly Dictionary<string, IBotCommand> commands = new Dictionary<string, IBotCommand>();
+        private readonly Dictionary<long, IBotCommand> currentAction = new Dictionary<long, IBotCommand>();
 
-        public string Execute(string message)
+        public string Execute(MessageEventArgs args)
         {
-            if (message.Length == 0) throw new ArgumentException("пустая строка");
-            var command = message.Split()[0];
-            var input = "";
-            var pos = message.Trim().IndexOf(' ');
-            if (pos != message.Length) input = message.Substring(pos + 1);
-
-            if (command.Length != 0 && references.ContainsKey(command))
-                return executions[command](input);
-            else return "Неизвестная команда.";
+            var text = args.Message.Text;
+            var id = args.Message.Chat.Id;
+            if (text == "/start") //&& !db.Exists(args.Message.Chat.Id))
+            {
+                currentAction[id] = null;
+                //db.Update(args);
+            }
+            else if (currentAction.ContainsKey(id) && currentAction[id] != null)
+            {
+                try
+                {
+                    var output = ((ICalculation)currentAction[id]).Calculate(text);
+                    currentAction[id] = null;
+                    //if (commands[command] is ICalculation)
+                    //    db.AddQuery(input, output, args.Message.Chat.Id);
+                    return output;
+                }
+                catch (Exception e)
+                {
+                    return e.Message;
+                }
+            }
+            else if (commands.ContainsKey(text))
+            {
+                if (commands[text] is ICalculation)
+                {
+                    currentAction[id] = commands[text];
+                }
+                else
+                {
+                    currentAction[id] = null;
+                }
+                return commands[text].Message;
+            }
+            return commands["/help"].Message;
         }
 
-        public List<string> GetAllCommandNames()
+        public List<IBotCommand> GetAllCommands()
         {
-            return references.Select(x => x.Key).ToList();
+            return commands.Select(x => x.Value).ToList();
         }
 
         public void Register(IBotCommand command)
         {
-            commands.Add(command);
-            references[command.Command] = command.Reference;
-            executions[command.Command] = command.Execute;
+            commands.Add(command.Command, command);
         }
     }
 }

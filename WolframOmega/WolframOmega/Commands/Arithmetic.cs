@@ -4,11 +4,13 @@ using System.Text;
 
 namespace WolframOmega
 {
-    class Arithmetic : IBotCommand
+    class Arithmetic : IBotCommand, ICalculation
     {
         public string Command => "/arithmetic";
 
-        public string Reference => "Считает арифметическое выражение, состоящее из чисел и знаков '+', '-', '/', '*', '(', ')'";
+        public string Reference => "считает арифметическое выражение, состоящее из чисел и знаков +, -, /, *, (, )";
+
+        public string Message => "Cчитает арифметическое выражение, состоящее из чисел и знаков +, -, /, *, (, ). Например: (2 + 2) * 2.";
 
         private Dictionary<char, int> priority = new Dictionary<char, int>
             { ['*'] = 0, ['/'] = 0, ['+'] = 1, ['-'] = 1, ['('] = 2, [')'] = 2 };
@@ -21,7 +23,7 @@ namespace WolframOmega
             ['-'] = (x, y) => x - y,
         };
 
-        public string Execute(string input)
+        public string Calculate(string input)
         {
             var operators = new Stack<char>();
             var numbers = new Stack<double>();

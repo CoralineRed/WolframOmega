@@ -83,9 +83,10 @@
     <Compile Include="Commands\Arithmetic.cs" />
     <Compile Include="BotUi.cs" />
     <Compile Include="CommandExecutor.cs" />
+    <Compile Include="CalculationInfo.cs" />
     <Compile Include="Commands\HelpCommand.cs" />
     <Compile Include="Commands\IBotCommand.cs" />
-    <Compile Include="Commands\StartCommand.cs" />
+    <Compile Include="Commands\ICalculation.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="ICommandExecutor.cs" />
     <Compile Include="Program.cs" />

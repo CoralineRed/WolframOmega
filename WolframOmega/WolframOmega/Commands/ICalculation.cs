@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace WolframOmega
 {
-    public interface IBotCommand
+    public interface ICalculation
     {
-        string Command { get; }
-        string Reference { get; }
-        string Message { get; }
+        string Calculate(string input);
     }
 }
