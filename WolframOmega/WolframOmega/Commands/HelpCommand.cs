@@ -17,7 +17,7 @@ namespace WolframOmega.Commands
 
         public string Command => "/help";
 
-        public string Reference => "Посмотреть доступные комманды.";
+        public string Reference => "Посмотреть доступные команды.";
 
         public string Execute(string input)
         {

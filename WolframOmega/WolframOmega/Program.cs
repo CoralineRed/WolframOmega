@@ -23,7 +23,7 @@ namespace WolframOmega
             //    bot.SendTextMessageAsync(e.Message.Chat.Id, "Привет");
             //};
             //bot.StartReceiving();
-            //WriteAllUpdates(bot);
+            //WriteAllUpdates(new TelegramBotClient(token));
 
             //var a = new Arithmetic();
             //var s = Console.ReadLine();

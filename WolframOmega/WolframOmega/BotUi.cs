@@ -10,6 +10,7 @@ namespace WolframOmega
 {
     public class BotUi
     {
+        Database db = new Database();
         private TelegramBotClient bot;
 
         public BotUi(string token)
@@ -19,8 +20,16 @@ namespace WolframOmega
 
         private async void BotOnMessage(object sender, MessageEventArgs e)
         {
-            Console.WriteLine(e.Message.Text);
-            await bot.SendTextMessageAsync(e.Message.Chat, "Привет");
+            if (e.Message.Text != "/start")
+            {
+                if (!db.Exists(e.Message.Chat.Id)) db.Update(e);
+                db.AddQuery(e.Message.Text, new Arithmetic().Execute(e.Message.Text), e.Message.Chat.Id);
+                db.GrantPermission(3, "co_re", "Nesom1", true);
+                var a = db.ShowAllCalculations();
+                Console.WriteLine(e.Message.Text);
+                await bot.SendTextMessageAsync(e.Message.Chat, "Привет");
+            }
+            
         }
 
         private static ICommandExecutor CreateExecutor()
@@ -32,16 +41,19 @@ namespace WolframOmega
 
         public void Run()
         {
+            var db = new Database();
             var executor = CreateExecutor();
-            SetCommands(executor);
+            //SetCommands(executor);
             bot.OnMessage += BotOnMessage;
             bot.StartReceiving();
+           
             Console.ReadKey();
         }
+        
 
-        private void SetCommands(ICommandExecutor executor)
-        {
-            bot.
-        }
+        //private void SetCommands(ICommandExecutor executor)
+        //{
+        //    bot.
+        //}
     }
 }
