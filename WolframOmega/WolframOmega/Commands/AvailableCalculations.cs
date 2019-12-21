@@ -18,6 +18,7 @@ namespace WolframOmega
         {
             var calcs = new Database().ShowAllCalculations(Username)
                     .GroupBy(c => c.Username);
+            if (calcs.Count() == 0) return "Нет доступных вычислений.";
             var builder = new StringBuilder();
             foreach (var group in calcs)
             {

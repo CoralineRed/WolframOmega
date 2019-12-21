@@ -13,7 +13,7 @@ namespace WolframOmega
     {
         static void Main(string[] args)
         {
-            var token = File.ReadAllLines("token.txt")[0];
+            var token = "866672360:AAHpvbtFgU4BK9EP7o_lsIfJTauLwhq3Pq8";
             new BotUi(token).Run();
 
             //var bot = new TelegramBotClient(token);

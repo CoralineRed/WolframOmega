@@ -9,7 +9,7 @@ namespace WolframOmega
 {
     public class CommandExecutor : ICommandExecutor
     {
-        //private Database db = new Database();
+        private Database db = new Database();
         private readonly Dictionary<string, IBotCommand> commands = new Dictionary<string, IBotCommand>();
         private readonly Dictionary<long, IBotCommand> currentAction = new Dictionary<long, IBotCommand>();
 
@@ -17,10 +17,10 @@ namespace WolframOmega
         {
             var text = args.Message.Text;
             var id = args.Message.Chat.Id;
-            if (text == "/start") //&& !db.Exists(args.Message.Chat.Id))
+            if (text == "/start" && !db.Exists(args.Message.Chat.Id))
             {
                 currentAction[id] = null;
-                //db.Update(args);
+                db.Update(args);
             }
             else if (currentAction.ContainsKey(id) && currentAction[id] != null)
             {
@@ -37,8 +37,8 @@ namespace WolframOmega
                         if (currentAction[id] is IUseDB useDB)
                             useDB.Username = args.Message.Chat.Username;
                         var output = currentAction[id].Responce();
-                        //if (commands[command] is ICalculation)
-                        //    db.AddQuery(input, output, args.Message.Chat.Id);
+                        if (currentAction[id] is ICalculation)
+                            db.AddQuery(text, output, args.Message.Chat.Id);
                         return output;
                     }
                     catch (Exception e)
@@ -57,6 +57,9 @@ namespace WolframOmega
                 else
                 {
                     currentAction[id] = null;
+                    if (commands[text] is IUseDB useDB)
+                        useDB.Username = args.Message.Chat.Username;
+                    return commands[text].Responce();
                 }
             }
             return commands["/help"].Responce();

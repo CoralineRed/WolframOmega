@@ -8,7 +8,7 @@ namespace WolframOmega
 {
     public class CancelCommand : IBotCommand
     {
-        public string Command => "/calculation";
+        public string Command => "/cancel";
 
         public string Reference => "отменяет текущую операцию";
 

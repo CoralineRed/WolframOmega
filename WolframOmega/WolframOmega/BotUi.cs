@@ -20,6 +20,9 @@ namespace WolframOmega
             executor.Register(new Arithmetic());
             executor.Register(new CancelCommand());
             executor.Register(new HelpCommand(executor.GetAllCommands));
+            executor.Register(new AvailableCalculations());
+            executor.Register(new TakePermissionCommand());
+            executor.Register(new GrantPermissionCommand());
             this.executor = executor;
         }
 

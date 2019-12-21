@@ -50,7 +50,7 @@ namespace WolframOmega
                     }
                 using (var cmd = new NpgsqlCommand($"SELECT * FROM calcinfo WHERE (userid = {userid1} AND calculationid={calcId})", conn))
                 using (var reader = cmd.ExecuteReader())
-                    while (reader.Read() && receiverid == 0)
+                    while (reader.Read())
                     {
                         ist = true;
                     }
