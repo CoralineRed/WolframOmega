@@ -19,10 +19,8 @@ namespace WolframOmega
 
         public string Reference => "посмотреть доступные команды";
 
-        public string Message
+        public string Responce()
         {
-            get
-            {
                 var builder = new StringBuilder();
                 builder.Append("Этот бот может считать арифметические выражения и сохранять их. ");
                 builder.Append("Вы можете делиться своими вычислениями с другими пользователями. ");
@@ -35,7 +33,6 @@ namespace WolframOmega
                     builder.Append("\n");
                 }
                 return builder.ToString();
-            }
         }
     }
 }

@@ -6,33 +6,32 @@ using System.Threading.Tasks;
 
 namespace WolframOmega
 {
-    public class AvailableCalculations : IBotCommand
+    public class AvailableCalculations : IBotCommand, IUseDB
     {
-        private Database db;
-
-        public AvailableCalculations(Database db)
-        {
-            this.db = db;
-        }
+        public string Username { get; set; }
 
         public string Command => "/availablecalcs";
 
         public string Reference => "предоставляет информацию по доступным вычислениям";
 
-        private string username;
-        public string Message
+        public string Responce()
         {
-            get
+            var calcs = new Database().ShowAllCalculations(Username)
+                    .GroupBy(c => c.Username);
+            var builder = new StringBuilder();
+            foreach (var group in calcs)
             {
-                var calcs = db.ShowAllCalculations(username)
-                    .GroupBy(c => c.UserId);
-
-                return "";
+                if (group.Key == Username) builder.Append("Ваши вычисления:\n");
+                else builder.Append("Вычисления, предоставленные пользователем " + group.Key + ":\n");
+                foreach (var calc in group)
+                {
+                    builder.Append("ID вычисления: " + calc.Id + ", ");
+                    builder.Append("вводные данные: " + calc.Input + ", ");
+                    builder.Append("результат: " + calc.Output + ".\n");
+                }
+                builder.Append("\n\n");
             }
-            set
-            {
-                username = value;
-            }
+            return builder.ToString();
         }
     }
 }

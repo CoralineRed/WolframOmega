@@ -27,13 +27,16 @@ namespace WolframOmega
                 if (text == "/cancel")
                 {
                     currentAction[id] = null;
-                    return commands["/cancel"].Message;
+                    return commands["/cancel"].Responce();
                 }
                 else
                 {
                     try
                     {
-                        var output = ((ICalculation)currentAction[id]).Calculate(text);
+                        ((INeedResponse)currentAction[id]).Response = args.Message.Text;
+                        if (currentAction[id] is IUseDB useDB)
+                            useDB.Username = args.Message.Chat.Username;
+                        var output = currentAction[id].Responce();
                         //if (commands[command] is ICalculation)
                         //    db.AddQuery(input, output, args.Message.Chat.Id);
                         return output;
@@ -46,17 +49,17 @@ namespace WolframOmega
             }
             else if (commands.ContainsKey(text))
             {
-                if (commands[text] is ICalculation)
+                if (commands[text] is INeedResponse needResponse)
                 {
                     currentAction[id] = commands[text];
+                    return needResponse.AskResponse;
                 }
                 else
                 {
                     currentAction[id] = null;
                 }
-                return commands[text].Message;
             }
-            return commands["/help"].Message;
+            return commands["/help"].Responce();
         }
 
         public List<IBotCommand> GetAllCommands()

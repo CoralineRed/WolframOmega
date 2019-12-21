@@ -12,6 +12,9 @@ namespace WolframOmega
 
         public string Reference => "отменяет текущую операцию";
 
-        public string Message => "Текущая операция была отменена.";
+        public string Responce()
+        {
+            return "Текущая операция была отменена.";
+        }
     }
 }

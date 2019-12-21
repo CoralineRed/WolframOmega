@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace WolframOmega
 {
-    public interface IBotCommand
+    public interface IUseDB
     {
-        string Command { get; }
-        string Reference { get; }
-        string Responce();
+        string Username { get; set; }
     }
 }

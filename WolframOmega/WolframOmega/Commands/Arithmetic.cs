@@ -4,13 +4,15 @@ using System.Text;
 
 namespace WolframOmega
 {
-    class Arithmetic : IBotCommand, ICalculation
+    class Arithmetic : IBotCommand, INeedResponse, ICalculation
     {
         public string Command => "/arithmetic";
 
         public string Reference => "считает арифметическое выражение, состоящее из чисел и знаков +, -, /, *, (, )";
 
-        public string Message => "Cчитает арифметическое выражение, состоящее из чисел и знаков +, -, /, *, (, ). Например: (2 + 2) * 2.";
+        public string AskResponse => "Cчитает арифметическое выражение, состоящее из чисел и знаков +, -, /, *, (, ). Например: (2 + 2) * 2.";
+
+        public string Response { get; set; }
 
         private Dictionary<char, int> priority = new Dictionary<char, int>
             { ['*'] = 0, ['/'] = 0, ['+'] = 1, ['-'] = 1, ['('] = 2, [')'] = 2 };
@@ -23,20 +25,20 @@ namespace WolframOmega
             ['-'] = (x, y) => x - y,
         };
 
-        public string Calculate(string input)
+        public string Responce()
         {
             var operators = new Stack<char>();
             var numbers = new Stack<double>();
-            input = input.Replace(" ", "");
-            if (input.Length == 0) throw new ArgumentException("Пустая строка");
-            for (int i = 0; i < input.Length; i++)
+            Response = Response.Replace(" ", "");
+            if (Response.Length == 0) throw new ArgumentException("Пустая строка");
+            for (int i = 0; i < Response.Length; i++)
             {
-                if (char.IsDigit(input[i]))
+                if (char.IsDigit(Response[i]))
                 {
                     var snumber = new StringBuilder();
-                    while (i < input.Length && (char.IsDigit(input[i]) || input[i] == '.' || input[i] == ','))
+                    while (i < Response.Length && (char.IsDigit(Response[i]) || Response[i] == '.' || Response[i] == ','))
                     {
-                        snumber.Append(input[i]);
+                        snumber.Append(Response[i]);
                         i++;
                     }
                     i--;
@@ -44,10 +46,10 @@ namespace WolframOmega
                         throw new ArgumentException("Неправильно введено число " + snumber);
                     numbers.Push(number);
                 }
-                else if (priority.ContainsKey(input[i]))
+                else if (priority.ContainsKey(Response[i]))
                 {
-                    if (input[i] == '(') operators.Push(input[i]);
-                    else if (input[i] == ')')
+                    if (Response[i] == '(') operators.Push(Response[i]);
+                    else if (Response[i] == ')')
                     {
                         while (operators.Count != 0 && operators.Peek() != '(')
                             CountLastOperation(operators, numbers);
@@ -57,12 +59,12 @@ namespace WolframOmega
                     }
                     else
                     {
-                        while (operators.Count != 0 && priority[operators.Peek()] <= priority[input[i]])
+                        while (operators.Count != 0 && priority[operators.Peek()] <= priority[Response[i]])
                             CountLastOperation(operators, numbers);
-                        operators.Push(input[i]);
+                        operators.Push(Response[i]);
                     }
                 }
-                else throw new ArgumentException("Нераспознанный символ: " + input[i]);
+                else throw new ArgumentException("Нераспознанный символ: " + Response[i]);
             }
             while (operators.Count != 0)
                 if (operators.Peek() != '(') CountLastOperation(operators, numbers);

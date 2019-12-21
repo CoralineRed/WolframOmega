@@ -90,12 +90,13 @@
     <Compile Include="Commands\HelpCommand.cs" />
     <Compile Include="Commands\IBotCommand.cs" />
     <Compile Include="Commands\ICalculation.cs" />
+    <Compile Include="Commands\INeedResponse.cs" />
+    <Compile Include="Commands\IUseDB.cs" />
     <Compile Include="Commands\TakePermissionCommand.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="ICommandExecutor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

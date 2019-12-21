@@ -8,6 +8,5 @@ namespace WolframOmega
 {
     public interface ICalculation
     {
-        string Calculate(string input);
     }
 }
